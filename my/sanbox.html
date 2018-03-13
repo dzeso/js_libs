@@ -1,0 +1,37 @@
+localStorage.setItem('bgcolor', "1234567890 ");
+var aValue;
+console.time("чтение значения из локал сторидж");
+for(var i=0; i<1000; i++) { 
+	aValue = localStorage.getItem('bgcolor');
+};
+
+	console.time("открытые базы");
+console.timeEnd("открытые базы");
+console.timeEnd("чтение значения из локал сторидж");
+console.log (aValue.length);
+
+var aValue = localStorage.getItem('db_test2');
+console.log (aValue.length);
+
+if( lsDb["test2"].isNew() ) {
+    lsDb["test2"].createTable("test2", ["id", "number", "string"]);
+    lsDb["test2"].commit();
+}
+
+console.time("чтение базы");
+lsDb["test2"].queryAll("test2")
+console.timeEnd("чтение базы");
+
+writeArrayToTable({
+	db: "test2",
+	table: "test2",
+	index: "id",
+    data: [
+			{id: 1, number: 1, string: "11"},
+			{id: 7, number: 7, string: "7777_"},
+			{id: 2, number: 2, string: "222"}
+		]
+  })
+	.catch(error => {
+		console.error('Ошибка при загрузке данных ', error)
+	});
