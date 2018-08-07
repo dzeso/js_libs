@@ -37,3 +37,18 @@ test( "getTimeFromISODate", assert => {
 	assert.equal( time.length, 5, "Длина " + time + " = 5"); 
 	assert.equal( time, "17:41", "Значение " + time + " = 17:41");
 });
+
+test( "getNextMoment", assert => { 
+	let time = getNextMoment({
+		date: "2018-08-06 17:41:34",
+		mode: "hh:mm"});
+	assert.equal( time.length, 19, "Длина " + time + " = 19"); 
+	assert.equal( time, "2018-08-06 17:42:34", "Значение " + time + " = 2018-08-06 17:42:34");
+	time = getNextMoment({
+		date: "2018-08-06 17:41:34",
+		mode: "hh:mm:s0"});
+	assert.equal( time, "2018-08-06 17:41:40", "Значение " + time + " = 2018-08-06 17:41:40");
+	time = getNextMoment({
+		date: "2018-08-06 17:41:34"});
+	assert.equal( time, "2018-08-06 17:41:35", "Значение " + time + " = 2018-08-06 17:41:35");
+});
