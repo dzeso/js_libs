@@ -51,14 +51,14 @@ test( "ls_sync_OpenDb", assert => {
 	assert.ok(ls_sync_OpenDb([{name: "test1",
 		tables: [{
 			name: "test_table1",
-			fields: ["id","name","data","string"]
+			fields: ["id","name","data","string","string1"]
 		}]
 	}]
   ), "Создаем новую колонку");
 //	assert.ok( ls_sync_OpenDb([	{ name: "test1"	}, { name: "test"	}]), "Две БД" );
 });
 
-test( "ls_async_OpenDb", async assert => { 
+/*test( "ls_async_OpenDb", async assert => { 
 	assert.ok(await ls_async_OpenDb([{name: "test1"}]), "Открытие БД");
 	assert.ok(await ls_async_OpenDb([{name: "test12"}]).catch((result) => {return true;}), "Открытие БД которой нет");
 	assert.ok(await ls_async_OpenDb([{}]).catch((result) => {return true;}), "Пустая конфигурация");

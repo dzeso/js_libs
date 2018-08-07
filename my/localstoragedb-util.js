@@ -44,36 +44,22 @@ function ls_sync_OpenDb(dbConfig) {
 			fields: [""]}]
 	}] */
 	let result = {};
-	console.log ("ls_sync_OpenDb(dbConfig)", dbConfig);
-	/*for (let db of dbConfig) {
-		result[db.name] = new localStorageDB(db.name, localStorage);
-		if( result[db.name].isNew() || result[db.name].tableCount() < 1) {
-			for (let table of db.tables) {
-				console.log ("createTable", table.name);
-	    	result[db.name].createTable(table.name, table.fields);
-			}
-			result[db.name].commit();			
-		}		
-	}*/
 	for (let db of dbConfig) {
 		result[db.name] = new localStorageDB(db.name, localStorage);
-		console.log ("db ", db.tables);
     if (db.tables)	
 			for (let table of db.tables) {
-				console.log ("tableExists", table.name, !result[db.name].tableExists(table.name));
+//				console.log ("db.tables table", table);
 				if ( !result[db.name].tableExists(table.name) ) {
-				  console.log ("createTable", table.name);
 		   	  result[db.name].createTable(table.name, table.fields);
-				} else if (db.fields)
+				} else if (table.fields)
 				for (let field of table.fields) {
+//					console.log ("table.fields field", field);
 					if ( !result[db.name].columnExists(table.name, field) ) {
-					  console.log ("createTableColumn", table.name, field);
 			   	  result[db.name].alterTable(table.name, field);
 					  }
 					}
 				}	
 		result[db.name].commit();			
-		console.log ("result[db.name].commit();", result[db.name]);
 		}		
 		return result;
 }	
@@ -126,7 +112,7 @@ function ls_async_WriteTable(request) {
 		body: ls_sync_WriteTable,
 		parameters: request,
 		error: request.table + ": Data changes cannot be committed"
-	})
+	});
 }	
 
 function ls_sync_ReadTable(request) {
@@ -147,7 +133,7 @@ function ls_async_ReadTable(request) {
 		body: ls_sync_ReadTable,
 		parameters: request,
 		error: request.table + ": Data cannot be read"
-	})
+	});
 }	
 
 function ls_sync_DeleteFromTable(request) {
@@ -168,7 +154,6 @@ function ls_async_DeleteFromTable(request) {
 		body: ls_sync_DeleteFromTable,
 		parameters: request,
 		error: request.table + ": Data cannot be deleted"
-	})
-}	
-
-console.log(" localStorageDb-util загружен");
+	});
+}
+console.log ("localstoragedb-util started");
