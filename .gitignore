@@ -1,3 +1,4 @@
 **/\.DS_Store
 /external
 /node_modules
+my_js_libs
