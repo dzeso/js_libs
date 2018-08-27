@@ -1,25 +1,107 @@
 const { test } = QUnit;
 console.log("QUnit() started");
 
+test("getNormalizedValue", assert => {
 
-test("getNewMarketPrices", assert => {
+    assert.equal(getNormalizedValue({ value: "20.0",  base: "10.0", k: 1 }), 1, "(20.0/10.0-1)*1 = 1");  
+    assert.equal(getNormalizedValue({ value: 20,  base: 10, k: 1 }), 1, "(20/10-1)*1 = 1");  
+    assert.equal(getNormalizedValue({ value: "20",  base: "10", k: "1" }), 1, "В строковых значениях (20/10-1)*1 = 1");    
+    assert.equal(getNormalizedValue({ value: "20",  base: "10"}), 1, "без к все ок");   
+
+});
+
+test("getEmptyChartArray", assert => {
+
+    let result = getEmptyChartArray({
+        colsNumber: 2,
+        rowsNumber: 2,
+        firstRowVal: { 
+            f: "1",
+            a: 1
+        },
+        rowsVal: {
+            f: "",
+            a: undefined}
+    });
+
+    assert.equal(result[0].length, 2, "Количество колонок - корректно");    
+    assert.equal(result.length, 2, "Длинна массива - корректна");    
+    assert.equal(result[0][0], "1", "Значение firstRowVal.f корректно"); 
+    assert.equal(result[0][1], 1, "Значение firstRowVal.a корректно"); 
+    assert.equal(result[1][0], "", "Значение rowsVal.f корректно"); 
+    assert.equal(result[1][1], undefined, "Значение rowsVal.a корректно"); 
+
+
+});
+
+test("getIndexAsArray", assert => {
+
+    let result = getIndexAsArray(coinsOrder);
+
+    assert.equal(result.length, 7, "Длинна массива - корректна");    
+    assert.equal(result[1], "BTC", "Возвращаемое значение корректно");  
+
+});
+
+test("getNewDataArrayFromObjectByDate", assert => {
 
     let firstRecord = contractMarketPrice.this_week.firstRecord,
         lastRecord = contractMarketPrice.this_week.lastRecord,
         currentRecord = contractMarketPrice.this_week.firstRecord;
 
     
-    let result = getDataFromMarketPriceByDate({
+    let result = getNewDataArrayFromObjectByDate({
+        data: contractMarketPrice.this_week,
+        currentRecord,
+        lastRecord,
+        instrumentIndex: coinsOrder,
+        timeMode: "hh:mm",
+        dataKey: "vol",
+    });
+
+    assert.equal(result.length, 6, "Длинна массива - корректна");    
+    assert.equal(result[3][1], "3909886", "Возвращаемое значение корректно");  
+
+    result = getNewDataArrayFromObjectByDate({
+        data: contractMarketPrice.this_week,
+        lastRecord: firstRecord,
+        currentRecord
+    });
+
+    assert.equal(result.length, 0, "если последняя и текущая записи совпадают, то массив пуст"); 
+
+    result = getNewDataArrayFromObjectByDate({
+        data: index,
+        instrumentIndex: coinsOrder,
+        lastRecord: "2018-08-16 10:54",
+        currentRecord: "2018-08-16 10:52",
+        timeMode: "hh:mm",
+    });
+
+    assert.equal(result.length, 2, "Из index если lastRecord: 2018-08-16 10:54, а currentRecord: 2018-08-16 10:52 вовзращаются две записи: 52 и 53 минуты");
+    assert.equal(result[1][0], "2018-08-16 10:53", "Из index последняя строка возвращается за 2018-08-16 10:53"); 
+    assert.equal(result[1][1], "6394.14", "Из index BTC в строке за 2018-08-16 10:53 равен 6394.14");
+});
+
+test("getDataFromObjectByDate", assert => {
+
+    let firstRecord = contractMarketPrice.this_week.firstRecord,
+        lastRecord = contractMarketPrice.this_week.lastRecord,
+        currentRecord = contractMarketPrice.this_week.firstRecord;
+
+    
+    let result = getDataFromObjectByDate({
         data: contractMarketPrice.this_week,
         date: currentRecord,
         instrumentIndex: coinsOrder,
         dataKey: "vol",
+        timeMode: "hh:mm",
     });
 
     assert.equal(result[0], "2018-08-12 07:56", "Метка времени правильная");
     assert.equal(result[5], "527904", "Значение Vol для риплов правильное");
 
-    result = getDataFromMarketPriceByDate({
+    result = getDataFromObjectByDate({
         data: contractMarketPrice.this_week,
         date: lastRecord,
         instrumentIndex: coinsOrder,
@@ -27,7 +109,15 @@ test("getNewMarketPrices", assert => {
     });
     assert.equal(result[0], "2018-08-12 08:02", "Метка времени правильная");
     assert.equal(result[5], "0.285", "Значение low для риплов правильное");
-    console.log("result", result);
+
+    result = getDataFromObjectByDate({
+        data: index,
+        date: "2018-08-16 10:54",
+        instrumentIndex: coinsOrder,
+    });
+
+    assert.equal(result[0], "2018-08-16 10:54", "Метка времени для данных без dataKey правильнoe");
+    assert.equal(result[1], "6388.21", "Значение BTC для данных без dataKey правильное");
 
 });
 
@@ -69,19 +159,19 @@ test("getTimeFromISODate", assert => {
     assert.equal(time, "17:41", "Значение " + time + " = 17:41");
 });
 
-test("getNextMoment", assert => {
-    let time = getNextMoment({
+test("getNextRecord", assert => {
+    let time = getNextRecord({
         date: "2018-08-06 17:41:34",
         mode: "hh:mm"
     });
     assert.equal(time.length, 16, "Длина " + time + " = 16");
     assert.equal(time, "2018-08-06 17:42", "Значение " + time + " = 2018-08-06 17:42");
-    time = getNextMoment({
+    time = getNextRecord({
         date: "2018-08-06 17:41:34",
         mode: "hh:mm:s0"
     });
     assert.equal(time, "2018-08-06 17:41:40", "Значение " + time + " = 2018-08-06 17:41:40");
-    time = getNextMoment({
+    time = getNextRecord({
         date: "2018-08-06 17:41:34",
         mode: "hh:mm:ss"
     });
