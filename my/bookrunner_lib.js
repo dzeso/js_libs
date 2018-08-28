@@ -30,6 +30,15 @@ function getNormalizedValue(param) {
     return (param.value/(param.base || param.value) - 1)*(param.k || 1);
 }
 
+function getFilteredValue(param) {
+    /*  "n-1": отфильтрованное значения,
+        "n": фильтруемые значения,
+        "n+1": последнее значения,
+        k: порог шума
+    */
+    return ((param["n-1"] + param["n+1"]) < param["n"]/param.k) ? (param["n-1"] + param["n+1"]) : param.n;
+}
+
 
 function getIndexAsArray(index) {
     /* index - справочник в формате 

@@ -18,5 +18,8 @@
     "typescript.quickSuggestionsForPaths": false,
     "typescript.reportStyleChecksAsWarnings": false,
     "typescript.suggestionActions.enabled": false,
-    "typescript.tsc.autoDetect": "off"
+    "typescript.tsc.autoDetect": "off",
+    "search.exclude": {
+        "**/qunit": true
+    },
 }

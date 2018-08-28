@@ -1,6 +1,14 @@
 const { test } = QUnit;
 console.log("QUnit() started");
 
+test("getFilteredValue", assert => {
+
+    assert.equal(getFilteredValue({ "n-1": 2,  n: 13, "n+1": 1, k: 4 }), 3, "2-13-1 -> 2-3-1");  
+    assert.equal(getFilteredValue({ "n-1": 2,  n: 12, "n+1": 1, k: 4 }), 12, "2-12-1 -> 2-12-1");  
+    assert.equal(getFilteredValue({ "n-1": 0,  n: 0, "n+1": 0, k: 4 }), 0, "0-0-0 -> 0-0-0");  
+
+});
+
 test("getNormalizedValue", assert => {
 
     assert.equal(getNormalizedValue({ value: "20.0",  base: "10.0", k: 1 }), 1, "(20.0/10.0-1)*1 = 1");  
@@ -124,7 +132,7 @@ test("getDataFromObjectByDate", assert => {
 
 test("getISODateFromStamp", assert => {
     let date = getISODateFromStamp({
-        timestamp: 1533566494965
+        timestamp: "1533566494965"
     });
     assert.equal(date.length, 19, "Длина " + date + " = 19");
     assert.equal(date, "2018-08-06 17:41:34", "Значение " + date + " = 2018-08-06 17:41:34");
