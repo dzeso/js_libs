@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"git.ignoreLimitWarning": true,
+		"javascript.autoClosingTags": false,
+		"typescript.validate.enable": false,
+		"typescript.autoClosingTags": false,
+		"typescript.check.npmIsInstalled": false,
+		"typescript.format.enable": false,
+		"typescript.reportStyleChecksAsWarnings": false,
+		"typescript.tsc.autoDetect": "off"
+	}
+}

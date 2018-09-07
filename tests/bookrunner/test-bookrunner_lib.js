@@ -1,6 +1,49 @@
 const { test } = QUnit;
 console.log("QUnit() started");
 
+test("getMedian", assert => {
+
+    let values = [2, 56, 3, 41, 0, 4, 100, 23];
+    assert.equal(getMedian(values), 13.5, "Медиана верна");  
+    assert.equal(getMedian([0]), 0, "Медиана от [0] = 0");  
+
+});
+
+test("getAverage", assert => {
+
+    let values = [2, 56, 3, 41, 0, 4, 100, 23];
+    assert.equal(getAverage(values), 28.625, "Среднее верно");  
+    assert.equal(getAverage([0]), 0, "Среднее от [0] = 0");  
+
+});
+
+test("getMode", assert => {
+
+    let values = [3, 5, 4, 4, 1, 1, 2, 3];
+    assert.deepEqual(getMode(values), [1, 3, 4], "Мода верна");  
+    assert.deepEqual(getMode([0]), [0], "Мода от [0] = 0");  
+
+});
+
+test("getRange", assert => {
+
+    let values = [3, 5, 4, 4, 1, 1, 2, 3];
+    assert.deepEqual(getRange(values), [1, 5], "Мода верна");  
+    assert.deepEqual(getRange([0]), [0, 0], "Мода от [0] = 0");  
+
+});
+
+// test("getAverage vs mean", assert => {
+
+//     let values = [];
+//     for (let i = 0; i < 10000; i++ ) {
+//         values[i] = Math.random()*1000;
+//     }
+//     assert.equal(mean(values), 28.625, "Среднее верно");  
+//     assert.equal(getAverage(values), 0, "Среднее от [0] = 0");  
+
+// });	
+
 test("getFilteredValue", assert => {
 
     assert.equal(getFilteredValue({ "n-1": 2,  n: 13, "n+1": 1, k: 4 }), 3, "2-13-1 -> 2-3-1");  

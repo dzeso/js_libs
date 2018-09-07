@@ -1,0 +1,41 @@
+<html>
+<head>
+    <title>Data loader</title>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900' rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
+    <link href="main.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="dataStatusApp" v-cloak>
+        <table :class=tableStyle>
+            <thead :class=tableHeaderStyle>
+                <tr>
+                    <th class="pa-1">id</th>
+                    <th class="pa-1">timeReceived</th>
+                    <th class="pa-1">status</th>
+                    <th class="pa-1">bidRate</th>
+                    <th class="pa-1">askRate</th>
+                    <th class="pa-1">bidSize</th>
+                    <th class="pa-1">askSize</th>
+                </tr>
+            </thead>
+            <tbody :class=tableBodyStyle>
+                <tr v-for="item in data" :key="item.id" :class="statusColor[item.status]">
+                    <td class="px-3">{{item.id}}</td>
+                    <td class="px-3">{{item.timeReceived}}</td>
+                    <td class="px-3">{{item.status}}</td>
+                    <td class="px-3">{{item.bidRate}}</td>
+                    <td class="px-3">{{item.askRate}}</td>
+                    <td class="px-3">{{item.bidSize}}</td>
+                    <td class="px-3">{{item.askSize}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+<script src="vue_min.js">"use strict";</script>
+<script src="app.js"></script>
+
+</html>
