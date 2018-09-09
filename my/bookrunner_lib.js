@@ -233,3 +233,16 @@ function getRange(numbers) {
     numbers.sort((a, b) => a - b);
     return [numbers[0], numbers[numbers.length - 1]];
 }
+
+/**
+ * The "exponent" of a number.
+ *
+ * For example, the "exponent" of 123 is 100.
+ *
+ * @param {String} (number or string)
+ * @return {Number} The range of the specified numbers.
+ */
+function getRoundToExponentOfNumber(number = 0) {
+    const m = Math.pow(10, (Math.abs(number)).toFixed().toString().length - 1);
+    return Math.round(+number/m)*m;
+}

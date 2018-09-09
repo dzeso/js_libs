@@ -1,6 +1,15 @@
 const { test } = QUnit;
 console.log("QUnit() started");
 
+test("getRoundToExponentOfNumber", assert => {
+
+    assert.equal(getRoundToExponentOfNumber(), 0, "Пустое значение обрабатывает верно");  
+    assert.equal(getRoundToExponentOfNumber(1234.23), 1000, "Порядок из числа верный");  
+    assert.equal(getRoundToExponentOfNumber("1234"), 1000, "Порядок из строки верный");  
+    assert.equal(getRoundToExponentOfNumber("-1234"), -1000, "Порядок из отрицательной строки верный");  
+
+});
+
 test("getMedian", assert => {
 
     let values = [2, 56, 3, 41, 0, 4, 100, 23];
